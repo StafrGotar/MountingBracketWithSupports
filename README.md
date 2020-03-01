@@ -2,6 +2,9 @@
 
 An OpenSCAD library to easily create a Mounting Bracket with an optional Footer to mount the bracket against another object or surface.
 
+![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Behind-Left.png)
+
+
 ## Requirements
 
 OpenSCAD 2019.05 or later.

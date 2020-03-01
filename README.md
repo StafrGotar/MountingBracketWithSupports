@@ -19,7 +19,8 @@ This library does not use any external libraries.
 
 ## Usage
 
-If you **\<include\>** this module into your OpenSCAD file, the default demo object will be produced.
+If you `<include StafrGotar/bracket/MountingBracketWithSupports.scad>` in your OpenSCAD file,
+then the default demo object will be produced.
 This is probably not what you want long term.
 But it's a good way to visualize what the module can provide.
 

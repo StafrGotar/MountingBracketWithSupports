@@ -4,6 +4,8 @@ An OpenSCAD library to easily create a Mounting Bracket with an optional Footer 
 
 ![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Behind-Left.png)
 
+![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Below-Right.png)
+
 
 ## Requirements
 

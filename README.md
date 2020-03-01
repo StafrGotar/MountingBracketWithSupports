@@ -25,7 +25,7 @@ This is probably not what you want long term.
 But it's a good way to visualize what the module can provide.
 
 If you `use <StafrGotar/bracket/MountingBracketWithSupports.scad>` in your OpenSCAD file,
-then the module will **not** be instantiated, but you must instantiate it from your own code.
+then the demo object will **not** be instantiated, but you must instantiate it from your own code.
 
 That's when you'll have to start studying the parameters and their influence on the Mounting Bracket object.
 Tip: Take advantage of named parameters. It'll make your own calling code easier to read.

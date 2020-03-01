@@ -17,6 +17,15 @@ This library does not use any external libraries.
 
 ## Installation
 
+The **Mounting Bracket With Supports** module is implemented in a single .scad file.
+This file may be copied anywhere it fits in to your current OpenSCAD environment.
+
+Nevertheless, the proposed installation would be to:
+
+* Find any of your OpenSCAD library directories (global or local).
+* Create the subdirectory `StafrGotar/bracket/` in your library directory, adjusting the access rights to your liking
+or your local system policies.
+
 ## Usage
 
 If you `include <StafrGotar/bracket/MountingBracketWithSupports.scad>` in your OpenSCAD file,

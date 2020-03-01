@@ -18,7 +18,7 @@ If you **\<include\>** this module into your OpenSCAD file, the default demo obj
 This is probably not what you want long term.
 But it's a good way to visualize what the module can provide.
 
-If you **<use>** this module from your OpenSCAD file, then the module will **not** be instantiated,
+If you **\<use\>** this module from your OpenSCAD file, then the module will **not** be instantiated,
 but you must instatiate it from your own code.
 
 That's when you'll have to start studying the parameters and their influence on the Mounting Bracket object.

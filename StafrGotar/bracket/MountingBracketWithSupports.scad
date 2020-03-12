@@ -52,18 +52,29 @@
 * wall_thickness => The thickness of the face-plate and the two triangular supports.
 *                   Must be greater than zero.
 *
-* footer_thickness => The thickness of the footer. If zero, then no footer is produced.
-*                     Must be a positive value.
-*                     A footer makes sense it the Mounting Bracket is going to be for instance 3D-printed as a separate
-*                     part and then bolted together with some 'main object'.
-*                     If the Mounting Bracket will be 3D-printed together with some 'main object', in one combined
-*                     print, then the footer could be omitted by setting its thickness to zero.
+* wall_holes_xzd_matrix => Matrix, a vector of vectors.
+*                          For each hole to punch through the face wall, a vector of 3 elements [x,z,d].
+*                          'x' position, 'z' position, hole 'd'iameter.
+*                          Three different holes at given positions could be provided as:
+*                          wall_holes_xzd_matrix=[ [10,15,3], [50,25,10], [90,15,3] ]
+*                          Default is 'no holes', i.e. an empty vector. Like this: wall_holes_xzd_matrix=[]
+*
+* footer_thickness => The thickness of the footer. If set to zero, then no footer is produced.
+*                     May not be negative.
+*                     A footer makes sense for instance if the Mounting Bracket is going to be 3D-printed as a separate
+*                     part and then bolted to some 'main object' of yours.
+*                     If the Mounting Bracket will be 3D-printed together with some 'main object', in one combined print,
+*                     then the footer can be omitted by setting its thickness to zero.
 *
 * footer_holes_xyd_matrix => Matrix, a vector of vectors.
 *                            For each mounting hole to punch through the footer, a vector of 3 elements [x,y,d].
-*                            'x' position, 'y' position, hole diameter.
+*                            'x' position, 'y' position, hole 'd'iameter.
 *                            Three holes for M3 screws at given positions could be provided as:
-*                            footer_holes_xyd_matrix=[ [20,6,3.2],[45,6,3.2],[80,6,3.2] ]
+*                            footer_holes_xyd_matrix=[ [20,6,3.2], [45,6,3.2], [80,6,3.2] ]
+*                            Default is 'no footer holes', i.e. an empty vector. Like this: footer_holes_xyd_matrix=[]
+*
+* verbosity => A positive integer value to request 'debug' information to be displayed during the instantiation of the object.
+*              Default is '0' (zero), which is equal to 'quiet'.
 *
 ****************************************************************************************************************************/
 
@@ -75,10 +86,11 @@ Mounting_Bracket_With_Supports(l=100,
 			       w=10,
 			       h=50,
 			       wall_thickness=1,
+			       wall_holes_xzd_matrix=[ [10,15,3], [50,25,10], [90,15,3] ],
 			       footer_thickness=1,
-//			       footer_holes_xyd_matrix=[ [20,6,3.2],[80,6,3.2] ],
-			       footer_holes_xyd_matrix=[ [20,6,3.2],[90,6,3.2] ],
-			       $fn=12);
+			       footer_holes_xyd_matrix=[ [20,6,3.2],[80,6,3.2] ],
+			       verbosity=1,
+			       $fn=24);
 
 
 /*
@@ -90,8 +102,10 @@ module Mounting_Bracket_With_Supports(l=100,
 				      w=10,
 				      h=50,
 				      wall_thickness=1,
+				      wall_holes_xzd_matrix=[],
 				      footer_thickness=1,
-				      footer_holes_xyd_matrix=[]) {
+				      footer_holes_xyd_matrix=[],
+				      verbosity=0) {
      //  Simple verification of some input variables.
      assert(l > 0,"You must provide a positive 'X' length greater than zero!");
      assert(w > 0,"You must provide a positive 'Y' width greater than zero!");
@@ -134,7 +148,10 @@ module Mounting_Bracket_With_Supports(l=100,
 					 hole[0],
 					 ") may not be set beyond bracket length 'l' (",
 					 l,")."));
-			      echo(str("Footer hole vector: [",hole[0],",",hole[1],",",hole[2],"]."));
+			      if(verbosity > 0) {
+				   // Only upon explicit request.
+				   echo(str("Footer hole vector: [",hole[0],",",hole[1],",",hole[2],"]."));
+			      }
 			      translate([hole[0],hole[1],-pass_through])
 				   cylinder(h=footer_thickness+(2*pass_through),
 					    d=hole[2],
@@ -144,8 +161,10 @@ module Mounting_Bracket_With_Supports(l=100,
 	       }
 	       // The face-plate.
 	       translate([0,0,footer_thickness])
-		    // Lift the wall and the supports to give place to the footer.
+		    // Lift the wall and the supports to give z-place for the footer.
 		    // If footer_thickness == 0, then the lift becomes null.
+		    difference() {
+		    // Build the face-plate...
 		    union() {
 		    // The main 'standing' wall, i.e. the face-plate.
 		    cube([l,
@@ -163,6 +182,20 @@ module Mounting_Bracket_With_Supports(l=100,
 			 rotate([0,0,90]) // Twist around Z.
 			 rotate([90,0,0]) // Stand up.
 			 Support_Wall_Triangle(h=h*height_ratio,w=w-wall_thickness);
+		    }
+		    // Remove 'wall' holes from the face-plate.
+		    // If screwholes are requested for the wall, punch the holes.
+		    for(wall_hole=wall_holes_xzd_matrix) {
+			 if(verbosity > 0) {
+			      // Only upon explicit request.
+			      echo(str("Wall hole vector: [",wall_hole[0],",",wall_hole[1],",",wall_hole[2],"]."));
+			 }
+			 translate([wall_hole[0],wall_thickness+pass_through,wall_hole[1]])
+			      rotate([90,0,0])
+			      cylinder(h=wall_thickness+(2*pass_through),
+				       d=wall_hole[2],
+				       center=false);
+		    }
 	       }
 	  }
      }

@@ -2,6 +2,8 @@
 
 An OpenSCAD library to easily create a Mounting Bracket with an optional Footer to mount the bracket against another object or surface.
 
+![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Below-Frontholes.png)
+
 ![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Behind-Left.png)
 
 ![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Below-Right.png)
@@ -12,6 +14,8 @@ An OpenSCAD library to easily create a Mounting Bracket with an optional Footer 
 OpenSCAD 2019.05 or later.
 Calling parameters are evaluated with the OpenSCAD 'alert()' which was added to OpenSCAD in its version 2019.05.
 The library module will most likely fail to compile in earlier versions of OpenSCAD.
+
+## Dependencies
 
 This library does not use any external libraries.
 

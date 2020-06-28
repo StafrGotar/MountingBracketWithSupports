@@ -3,11 +3,19 @@
 An OpenSCAD **library** to easily create a Mounting Bracket with an optional Footer to mount the bracket against another object or surface.
 Parameterized holes (position, diameter and shape of each individual hole) can be created in the footer and/or in the face-plate wall.
 
-![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Below-Frontholes.png)
+![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Below-Right.png)
+
+The simplest example.
+
 
 ![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Behind-Left.png)
 
-![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Below-Right.png)
+Seen from the 'back'.
+
+
+![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Below-Frontholes.png)
+
+Adding three holes in the face-plate wall.
 
 
 ## Requirements

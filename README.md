@@ -92,7 +92,7 @@ Default is 'no holes', i.e. an empty matrix. Like this: `wall_holes_xzd_matrix=[
 * `footer_thickness` The thickness of the footer. If set to zero, then no footer is produced. May not be negative. A footer makes sense for instance if the Mounting Bracket is going to be 3D-printed as a separate part and then bolted to some 'main object' of yours. If the Mounting Bracket will be 3D-printed together with some 'main object', in one combined print, then the footer can be omitted by setting its thickness to zero.
 * `footer_holes_xyd_matrix` A matrix, a vector of vectors. For each mounting hole to punch through the footer, a vector of 3 to 5 elements [x,y,d,fn,rot] for the 'x' position on the footer (mandatory), the 'y' position on the footer (mandatory), the 'd' hole diameter (mandatory, >= 0), 'fn' fragment number (optional, equivalent of $fn) and 'rot' number of degrees to rotate the hole. Three holes for M3 screws at given positions could be provided as: `footer_holes_xyd_matrix=[ [20,6,3.2], [45,6,3.2], [80,6,3.2] ]` Default is 'no footer holes', i.e. an empty matrix. Like this: `footer_holes_xyd_matrix=[]`
 * `verbosity` A positive integer value to request 'debug' information to be displayed in the monitor during the instantiation of the object. Default is '0' (zero), which is equal to 'quiet'.
-* `$fn` The module will listen to the gloabl `$fn` variable, if it's set.
+* `$fn` The module will listen to the global `$fn` variable, if it's set.
 For all holes in the bracket where the caller has **not** provided an explicit 'fn' value, the global $fn will be used.
 Where hole-specific 'fn' values are given, those will be used.
 If no `$fn` is set and no hole-specific 'fn' is set, then the default 'fn' value of 8 will be used.

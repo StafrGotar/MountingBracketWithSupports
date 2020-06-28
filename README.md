@@ -17,6 +17,10 @@ Seen from the 'back'.
 
 Adding three holes in the face-plate wall.
 
+![](https://github.com/StafrGotar/MountingBracketWithSupports/blob/master/images/Bracket-Frontholes-GoingBerserk.png)
+
+Going berserk with holes of different shapes and positions.
+
 
 ## Requirements
 

@@ -14,14 +14,19 @@
 * Decide if it's of any use in your project(s).
 *
 *
+* Author: Stafr Gotar
+*
+* The latest version can be found at:
+* https://github.com/StafrGotar/MountingBracketWithSupports
+*
+*
 * How to use it.
 * ==============
-* If you <include> this module into your OpenSCAD file, the default demo object will be produced.
+* If you 'include' this module into your OpenSCAD file, the default demo object will be produced.
 * This is probably not what you want long term.
 * But it's a good way to visualize what the module can provide.
-* If you <use> this module from your OpenSCAD file, then the module will *not* be instantiated,
+* If you 'use' this module from your OpenSCAD file, then the module will *not* be instantiated,
 * but you must instantiate it from your own code.
-*
 * That's when you'll have to start studying the parameters and their influence on the Mounting Bracket object.
 * Tip: Take advantage of named parameters. It'll make your own calling code easier to read.
 *
@@ -33,6 +38,9 @@
 *
 * The face-plate wall, where we imagine to attach 'things' to the bracket, will be turned 'forward'
 * into a default camera position.
+*
+* By default, no holes will be made either in the footer or in the face-plate wall.
+* Holes must be explicitly requested in the calling parameters.
 *
 *
 * Parameters.
@@ -52,7 +60,7 @@
 * wall_thickness => The thickness of the face-plate wall and the two triangular supports.
 *                   Must be greater than zero.
 *
-* wall_holes_xzd_matrix => Matrix, a vector of vectors.
+* wall_holes_xzd_matrix => A matrix, a vector of vectors.
 *                          For each hole to punch through the face wall, a vector of 3 to 5 elements [x,z,d,fn,rot].
 *                          Details:
 *                          'x' position on the face-plate wall, mandatory
@@ -74,7 +82,7 @@
 *                     If the Mounting Bracket will be 3D-printed together with some 'main object', in one combined print,
 *                     then the footer can be omitted by setting its thickness to zero.
 *
-* footer_holes_xyd_matrix => Matrix, a vector of vectors.
+* footer_holes_xyd_matrix => A matrix, a vector of vectors.
 *                            For each mounting hole to punch through the footer, a vector of 3 to 5 elements [x,y,d,fn,rot].
 *                            Details:
 *                            'x' position from the origin, mandatory
@@ -94,7 +102,7 @@
 *              Default is '0' (zero), which is equal to 'quiet'.
 *              Currently, the highest value is '2'.
 *
-* $fn => The module will listen to the gloabl $fn variable, if it's set.
+* $fn => The module will listen to the global $fn variable, if it's set.
 *        For all holes in the bracket where the caller has *not* provided an explicit 'fn' value, the global $fn will be used.
 *        Where hole-specific 'fn' values are given, those will be used.
 *        If no $fn is set and no hole-specific 'fn' is set, then the default 'fn' value of 8 will be used.
@@ -102,106 +110,8 @@
 ****************************************************************************************************************************/
 
 /*
- Demo driver, activated by 'include <MountingBracketWithSupports.scad>'.
- Specify 'use <MountingBracketWithSupports.scad>' to suppress the demo.
-
- This demo driver call is explicitly written as a very long list of arguments
- to permit explicit comments on the example parameters.
-
- Lot's of examples, some pretty odd ones.
-*/
-Mounting_Bracket_With_Supports(l=100,  // X length.
-			       w=10,   // Y width.
-			       h=50,   // Z height.
-			       wall_thickness=1.6,
-			       wall_holes_xzd_matrix=[ [10,  // X position on the face-plate wall.
-							15,  // Y position on the face-plate wall.
-							3,   // Diameter.
-							8,   // Fragment number (fn) for this hole.
-							0],  // Rotate degrees +/- (0 - 259)
-						       
-						       [20,  // X pos.
-							25,  // Y pos.
-							6], // Diameter. (No fn specified, so undef. No rotate, so undef.)
-
-						       [30,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							3,   // Fragments fn. Explicit triangle.
-							90], // Rotate 90 degrees.
-						       
-						       [40,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							3,   // Fragments fn. Explicit triangle.
-							-110],// Rotate -110 degrees.
-						       
-						       [60,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							4],  // Fragments fn. Explicit square.
-						       
-						       [70,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							4,   // Fragments fn. Explicit square.
-							45], // Rotate 45 degrees.
-						       
-						       [90,  // X.
-							15,  // Y.
-							3,   // D.
-							5,   // fn.
-							-90], // Can rotate positive or negative.
-
-						       // A 'round' hole. No need to rotate a round hole.
-						       [50,
-							35,
-							12,
-							128], // fn=128, Smooth finish.
-
-						       // Combine three holes to make an oddly shaped hole.
-						       [50,10,10,128], // A round hole.
-						       [45,10,5,4,45], // Rotate the square 45 degrees.
-						       [55,10,5,48]    // Given 48 fractions but no rotate.
-				    ],
-			       footer_thickness=2,
-			       footer_holes_xyd_matrix=[ [20,     // X position on footer.
-							  6,      // Y position on footer.
-							  3.2,    // Hole Diameter.
-							  12,     // Fragment number (fn) for this footer hole.
-							  undef], // Rotate degrees.
-
-							 // A hole with no fn, will become triangular since no $fn exists.
-							 [40,
-							  6,
-							  3.2], // Diameter. No fn, so undef. No rotate, so undef.
-
-							 // A hexagonal hole.
-							 [50,
-							  6,
-							  5.5,
-							  6],  // Hexagonal.
-							 
-							 // A triangular hole, but rotated 180 degrees.
-							 [60,
-							  6,
-							  3.2,
-							  3,     // fn=3 makes triangular.
-							  180],  // Rotate 180 degrees.
-							 
-							 [80,
-							  6,
-							  3.2,
-							  24,
-							  0]    // Rotate zero degrees.
-				    ],
-			       verbosity=2); // Could add $fn here, to be used when no specific 'fn' is given for a hole.
-
-
-/*
  The external calling interface. Reasonable default values are set.
  By default, there are no mounting holes in the footer and no holes in the face-plate wall.
- To see footer and wall holes, activate the demo above, using 'include <>'.
 */
 module Mounting_Bracket_With_Supports(l=100,
 				      w=10,
@@ -221,18 +131,20 @@ module Mounting_Bracket_With_Supports(l=100,
      assert(l >+ (wall_thickness*2),"The length (l) must be at least 2 times the wall thickness.");
 
      pass_through=0.001; // To avoid having a hole flush with a surface.
-     height_ratio=0.75;  // Could become a parameter.
+     height_ratio=0.75;  // Could become a parameter one day.
 
      // Calling the original 'cylinder()' without a valid '$fn' makes a cylinder with 8 fragments.
      // Calling the original 'cylinder()' with a '$fn < 3' makes a triangle shaped cylinder.
+     
      default_fn=8; // In case it's missing or holds an 'illegal' value.
      minimum_fn=3; // A triangular cylinder is made from the smallest possible number of fragments.
      
      // Private module, 'protected' by scope.
      module local_support_wall_triangle(h=30,w=10,t=wall_thickness) {
 	  linear_extrude(height=t)
-	       polygon(points=[ [0,0], [w,0], [0,h]]);
+	       polygon(points=[ [0,0], [w,0], [0,h] ]);
      }
+     
      // Private module, 'protected' by scope.
      module local_cylinder_hole(height,radius,fn) {
 	  // Outer (circumscribed) cylinder polygon.
@@ -386,5 +298,104 @@ module Mounting_Bracket_With_Supports(l=100,
 	  }
      }
 }
+
+
+/****************************************************************************************************************************
+ Demo driver, activated by 'include <StafrGotar/bracket/MountingBracketWithSupports.scad>'.
+ Specify 'use <StafrGotar/bracket/MountingBracketWithSupports.scad>' to suppress the demo object.
+
+ This demo driver call is explicitly written as a very long list of arguments
+ to permit explicit comments on the example parameters.
+
+ Values are here hardcoded, but the caller will most likely create the dimensions and positions dynamically.
+
+ Lot's of examples for creating holes in the bracket are provided, some pretty odd ones.
+****************************************************************************************************************************/
+Mounting_Bracket_With_Supports(l=100,  // X length.
+			       h=50,   // Z height.
+			       wall_thickness=1.6,
+			       wall_holes_xzd_matrix=[ [10,  // X position on the face-plate wall.
+							15,  // Y position on the face-plate wall.
+							3,   // Diameter.
+							8,   // Fragment number (fn) for this hole.
+							0],  // Rotate degrees +/- (0 - 259)
+						       
+						       [20,  // X pos.
+							25,  // Y pos.
+							6], // Diameter. (No fn specified, so undef. No rotate, so undef.)
+
+						       [30,  // X pos.
+							25,  // Y pos.
+							6,  // Diameter.
+							3,   // Fragments fn. Explicit triangle.
+							90], // Rotate 90 degrees.
+						       
+						       [40,  // X pos.
+							25,  // Y pos.
+							6,  // Diameter.
+							3,   // Fragments fn. Explicit triangle.
+							-110],// Rotate -110 degrees.
+						       
+						       [60,  // X pos.
+							25,  // Y pos.
+							6,  // Diameter.
+							4],  // Fragments fn. Explicit square.
+						       
+						       [70,  // X pos.
+							25,  // Y pos.
+							6,  // Diameter.
+							4,   // Fragments fn. Explicit square.
+							45], // Rotate 45 degrees.
+						       
+						       [90,  // X.
+							15,  // Y.
+							3,   // D.
+							5,   // fn.
+							-90], // Can rotate positive or negative.
+
+						       // A 'round' hole. No need to rotate a round hole.
+						       [50,
+							35,
+							12,
+							128], // fn=128, Smooth finish.
+
+						       // Combine three holes to make an oddly shaped hole.
+						       [50,10,10,128], // A round hole.
+						       [45,10,5,4,45], // Rotate a square 45 degrees.
+						       [55,10,5,48]    // Given 48 fractions but no rotate.
+				    ],
+			       footer_thickness=2,
+			       footer_holes_xyd_matrix=[ [20,     // X position on footer.
+							  6,      // Y position on footer.
+							  3.2,    // Hole Diameter.
+							  12,     // Fragment number (fn) for this footer hole.
+							  undef], // Rotate degrees.
+
+							 // A hole with no fn, will become triangular since no $fn exists.
+							 [40,
+							  6,
+							  3.2], // Diameter. No fn, so undef. No rotate, so undef.
+
+							 // A hexagonal hole.
+							 [50,
+							  6,
+							  5.5,
+							  6],  // Hexagonal.
+							 
+							 // A triangular hole, but rotated 180 degrees.
+							 [60,
+							  6,
+							  3.2,
+							  3,     // fn=3 makes triangular.
+							  180],  // Rotate 180 degrees.
+							 
+							 [80,
+							  6,
+							  3.2,
+							  24,
+							  0]    // Rotate zero degrees.
+				    ],
+			       verbosity=2); // Could add $fn here, to be used when no specific 'fn' is given for a hole.
+
 
 // EOF.

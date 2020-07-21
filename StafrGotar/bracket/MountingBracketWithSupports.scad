@@ -314,44 +314,44 @@ module Mounting_Bracket_With_Supports(l=100,
 Mounting_Bracket_With_Supports(l=100,  // X length.
 			       h=50,   // Z height.
 			       wall_thickness=1.6,
-			       wall_holes_xzd_matrix=[ [10,  // X position on the face-plate wall.
-							15,  // Y position on the face-plate wall.
-							3,   // Diameter.
-							8,   // Fragment number (fn) for this hole.
-							0],  // Rotate degrees +/- (0 - 259)
+			       wall_holes_xzd_matrix=[ [10,    // X position on the face-plate wall.
+							15,    // Z position on the face-plate wall.
+							3,     // Diameter.
+							8,     // Fragment number (fn) for this hole.
+							0],    // Rotate degrees +/- (0 - 259)
 						       
-						       [20,  // X pos.
-							25,  // Y pos.
-							6], // Diameter. (No fn specified, so undef. No rotate, so undef.)
+						       [20,    // X pos.
+							25,    // Z pos.
+							6],    // Diameter. (No fn specified, so undef. No rotate, so undef.)
 
-						       [30,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							3,   // Fragments fn. Explicit triangle.
-							90], // Rotate 90 degrees.
+						       [30,    // X pos.
+							25,    // Z pos.
+							6,     // Diameter.
+							3,     // Fragments fn. Explicit triangle.
+							90],   // Rotate 90 degrees.
 						       
-						       [40,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							3,   // Fragments fn. Explicit triangle.
-							-110],// Rotate -110 degrees.
+						       [40,    // X pos.
+							25,    // Z pos.
+							6,     // Diameter.
+							3,     // Fragments fn. Explicit triangle.
+							-110], // Rotate -110 degrees.
 						       
-						       [60,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							4],  // Fragments fn. Explicit square.
+						       [60,    // X pos.
+							25,    // Z pos.
+							6,     // Diameter.
+							4],    // Fragments fn. Explicit square.
 						       
-						       [70,  // X pos.
-							25,  // Y pos.
-							6,  // Diameter.
-							4,   // Fragments fn. Explicit square.
-							45], // Rotate 45 degrees.
+						       [70,    // X pos.
+							25,    // Z pos.
+							6,     // Diameter.
+							4,     // Fragments fn. Explicit square.
+							45],   // Rotate 45 degrees.
 						       
-						       [90,  // X.
-							15,  // Y.
-							3,   // D.
-							5,   // fn.
-							-90], // Can rotate positive or negative.
+						       [90,    // X.
+							15,    // Z.
+							3,     // D.
+							5,     // fn.
+							-90],  // Can rotate positive or negative.
 
 						       // A 'round' hole. No need to rotate a round hole.
 						       [50,
